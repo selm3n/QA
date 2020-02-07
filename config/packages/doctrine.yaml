@@ -1,6 +1,11 @@
 doctrine:
     dbal:
+        driver: 'pdo_pgsql'
+        charset: utf8
         url: '%env(resolve:DATABASE_URL)%'
+        mapping_types:
+            channel_enum: string
+            status_enum: string
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
