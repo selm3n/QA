@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection; 
+use App\Entity\Answer;
 
 /**
  * @ORM\Entity
@@ -49,11 +51,7 @@ class Question
      */
     private $updated;
 
-    /**
-     * @ORM\Column(name="body", type="string", length=255)
-     * 
-     */
-    private $body;
+  
 
     /**
      * @ORM\Column(name="status", type="string", columnDefinition="status_enum", nullable=true)
@@ -61,12 +59,20 @@ class Question
      */
     private $status;
 
+   
     /**
-     * @ORM\Column(name="channel", type="string", columnDefinition="channel_enum", nullable=true)
-     *
+     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question", cascade={"persist", "remove" })
      * 
      */
-    private $channel;
+    
+    private $answers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="QuestionHistoric", mappedBy="question", cascade={"persist", "remove" })
+     * 
+     */
+    
+    private $questionhistorics;
     
 
     /**
@@ -219,5 +225,116 @@ class Question
         $this->channel = $channel;
 
         return $this;
+    }
+
+   /**
+     * Set answers
+     *
+     * @param string $answers
+     * @return Question
+     */
+    public function setAnswers($answers)
+    {
+        $this->answers = $answers;
+
+        return $this;
+    }
+
+    /**
+     * Get answers
+     *
+     * @return string
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->answers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->questionhistorics = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add answers
+     *
+     * @param App\Entity\Answer $answers
+     * @return Question
+     */
+    public function addAnswers(Answer $answers)
+    {
+        $this->getAnswers()->add($answers) ;
+        $answers->setQuestion($this);
+    
+        return $this;
+    }
+
+    /**
+     * Remove answers
+     *
+     * @param App\Entity\Answer $answers
+     */
+    public function removeAnswers( $answers)
+    {
+        $this->answers->removeElement($answers);
+    }
+
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set questionhistorics
+     *
+     * @param string $questionhistorics
+     * @return Question
+     */
+    public function setQuestionhistorics($questionhistorics)
+    {
+        $this->questionhistorics = $questionhistorics;
+
+        return $this;
+    }
+
+    /**
+     * Get questionhistorics
+     *
+     * @return string
+     */
+    public function getQuestionhistorics()
+    {
+        return $this->questionhistorics;
+    }
+    
+
+    /**
+     * Add questionhistorics
+     *
+     * @param App\Entity\QuestionHistoric $questionhistorics
+     * @return Question
+     */
+    public function addQuestionhistorics(QuestionHistoric $questionhistorics)
+    {
+        $this->getAnswers()->add($questionhistorics) ;
+        $questionhistorics->setQuestion($this);
+    
+        return $this;
+    }
+
+    /**
+     * Remove questionhistorics
+     *
+     * @param App\Entity\QuestionHistoric $questionhistorics
+     */
+    public function removeQuestionhistorics( $questionhistorics)
+    {
+        $this->questionhistorics->removeElement($questionhistorics);
     }
 }
