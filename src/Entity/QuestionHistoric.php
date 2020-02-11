@@ -109,4 +109,15 @@ class QuestionHistoric
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'question_id' => $this->getQuestion()->getId(),
+            'title' => $this->getTitle(),
+            'status' => $this->getStatus(),
+            
+        ];
+    }
 }
