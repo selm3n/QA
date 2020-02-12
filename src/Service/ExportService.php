@@ -19,7 +19,7 @@ class ExportService
 
         //var_dump($results);die();
         if ($results) {
-            $csvPath = 'C:\file.csv';//'C:\Users\User\Desktop\file.csv';//'C:\file.csv';
+            $csvPath = 'C:\wamp64\www\QA\file.csv';//'C:\Users\User\Desktop\file.csv';//'C:\file.csv';
 
             $csvh = fopen($csvPath, 'w+');
             $d = ','; // this is the default but i like to be explicit
