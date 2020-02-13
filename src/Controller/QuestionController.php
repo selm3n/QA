@@ -52,6 +52,17 @@ class QuestionController extends FOSRestController
             for( $i=0;$i<sizeof($an);$i++ ){
                 $an[$i]->setQuestion($question);
             }
+
+            
+            $title =$request->request->get("title");
+            $status =$request->request->get("status");
+            $questionhistoric = new QuestionHistoric();
+            $questionhistoric->setTitle($title);
+            $questionhistoric->setStatus($status);
+            $questionhistoric->setQuestion($question);
+
+            $em->persist($questionhistoric);
+
             $em->flush();
 
             return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
@@ -125,7 +136,6 @@ class QuestionController extends FOSRestController
                 $response=array(
                     'code'=>200,
                     'message'=>"success ",
-                    'data'=>$entity
                 );
                 return new JsonResponse($response,200);
 
